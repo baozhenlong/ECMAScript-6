@@ -48,6 +48,7 @@ console.log(Object.getPrototypeOf(teacher) === dog); //true
 //es6的实现
 //Super引用存在于简写方法的对象中
 //Super引用相当于指向对象原型的指针，实际上也就是Object.getPrototypeOf(this)的值
+//使用super关键字调用对象原型上方法，此时的this绑定会被自动设置为当前作用域的this值
 let better_teacher = {
     get_greeting() {
         return super.get_greeting() + ", better_teacher";
