@@ -21,12 +21,12 @@ function create_iterator(items) {
     }
 }
 let iterator = create_iterator([1, 2, 3]);
-console.log("[迭代器]---1 = " + iterator.next()); //{"done":false,"value":1}
-console.log("[迭代器]---2 = " + iterator.next()); //{"done":false,"value":2}
-console.log("[迭代器]---3 = " + iterator.next()); //{"done":false,"value":3}
-console.log("[迭代器]---4 = " + iterator.next()); //{"done":false,"value":"undefined"}
+console.log("[迭代器]---1 = ", iterator.next()); //{"done":false,"value":1}
+console.log("[迭代器]---2 = ", iterator.next()); //{"done":false,"value":2}
+console.log("[迭代器]---3 = ", iterator.next()); //{"done":false,"value":3}
+console.log("[迭代器]---4 = ", iterator.next()); //{"done":true,"value":"undefined"}
 //之后所有的调用都会返回相同内容
-console.log("[迭代器]---5 = " + iterator.next()); //{"done":false,"value":"undefined"}
+console.log("[迭代器]---5 = ", iterator.next()); //{"done":true,"value":"undefined"}
 //在上面这段代码中，create_iterator()函数返回的对象有一个next()方法
 //每次调用，items数组的下一个会作为value返回
 //当i=3时，done变为true，此时三元表达式会将value的值设置为undefined
