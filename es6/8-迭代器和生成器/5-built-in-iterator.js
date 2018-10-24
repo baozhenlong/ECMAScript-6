@@ -79,8 +79,8 @@ for (let value of tracking) {
 for (let value of data) {
     console.log("[map默认迭代器]---data value = ", value);
 }
-//value的值是一个由键值对组成的数组
 // [map默认迭代器]---data value =  [ 'title', 'es6' ]
+//value的值是一个由键值对组成的数组
 //默认情况下，如果是数组和Set集合，会逐一返回集合中所有的值
 //如果是Map集合，则按照Map构造函数参数的格式返回相同的数组内容
 //而WeakSet集合和WeakMap集合就没有内建的迭代器，由于要管理弱引用，因而无法确切地知道集合中存在的值，也就无法迭代这些集合了
