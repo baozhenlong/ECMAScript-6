@@ -86,3 +86,44 @@ console.log("[在迭代器中抛出错误]---", iterator_3.next());
 //next()和throw()就像迭代器的2条指令：
 //调用next()方法命令迭代器继续执行(可能提供一个值)
 //调用throw方法也会命令迭代器继续执行，但同时也会抛出一个错误，在此之后的执行过程取决于生成器内部的代码
+
+//3---生成器返回语句
+//由于生成器也是函数，因此可以通过return语句提前退出函数执行
+//对于最后一次next()方法调用，可以主动为其指定一个返回值
+//在生成器中，return表示所有操作已经完成，属性done被设置为true；如果同时提供了相应的值，则属性value会被设置为这个值
+//未指定返回值
+function* create_iterator_4() {
+    yield 1;
+    return;
+    //其后的yield语句将不会被执行
+    yield 2;
+    yield 3;
+}
+let iterator_4 = create_iterator_4();
+console.log("[生成器返回语句]---", iterator_4.next());
+// [生成器返回语句]--- { value: 1, done: false }
+console.log("[生成器返回语句]---", iterator_4.next());
+// [生成器返回语句]--- { value: undefined, done: true }
+//指定返回值：在return语句中也可以指定一个返回值，该值将被赋值给返回对象的value属性
+function* create_iterator_5() {
+    yield 1;
+    return 42;
+    //其后的yield语句将不会被执行
+    yield 2;
+    yield 3;
+}
+let iterator_5 = create_iterator_5();
+console.log("[生成器返回语句]---", iterator_5.next());
+// [生成器返回语句]--- { value: 1, done: false }
+console.log("[生成器返回语句]---", iterator_5.next());
+// [生成器返回语句]--- { value: 42, done: true }
+console.log("[生成器返回语句]---", iterator_5.next());
+// [生成器返回语句]--- { value: undefined, done: true }
+//在此示例中，第2次调用next()方法时返回对象的value属性值为42，done属性首次设为true
+//第3次调用next()方法依然返回一个对象，只是value属性的值会变为undefined
+//因此，通过return语句指定的返回值，只会在返回对象中出现一次，在后续调用返回的对象中，value属性会被重置为undefined
+//Note：展开运算符与for-of循环语句会直接忽略通过return语句指定的任何返回值，只要done一变为true，就立即停止读取其他的值
+//不管怎样，迭代器的返回值依然是一个非常有用的特性，比如即将要讲到的委托迭代器
+
+//4---委托迭代器
+//
