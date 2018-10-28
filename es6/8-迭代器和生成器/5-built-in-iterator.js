@@ -63,7 +63,6 @@ for (let key of data.keys()) {
 //1.4---不同集合类型的默认迭代器
 //每个集合类型都有一个默认的迭代器，在for-of循环中，如果没有显式指定则使用默认的迭代器
 //数组和Set集合的默认迭代器是values()方法
-//Map集合的默认迭代器entries()方法
 for (let value of colors) {
     console.log("[array默认迭代器]---colors value = ", value);
 }
@@ -76,6 +75,7 @@ for (let value of tracking) {
 // [set默认迭代器]---tracking value =  12
 // [set默认迭代器]---tracking value =  34
 // [set默认迭代器]---tracking value =  56
+//Map集合的默认迭代器entries()方法
 for (let value of data) {
     console.log("[map默认迭代器]---data value = ", value);
 }

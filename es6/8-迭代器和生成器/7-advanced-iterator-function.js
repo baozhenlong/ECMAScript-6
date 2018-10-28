@@ -125,5 +125,94 @@ console.log("[生成器返回语句]---", iterator_5.next());
 //Note：展开运算符与for-of循环语句会直接忽略通过return语句指定的任何返回值，只要done一变为true，就立即停止读取其他的值
 //不管怎样，迭代器的返回值依然是一个非常有用的特性，比如即将要讲到的委托迭代器
 
-//4---委托迭代器
-//
+//4---委托生成器
+//在某些情况下，我们需要将2个迭代器合二为一
+//这时可以创建一个生成器，再给yield语句添加一个星号*，就可以将生成数据的过程委托给其他生成器
+//当定义这些生成器时，只需将星号*放置在关键字yield和生成器的函数名之间即可：
+function* create_number_iterator() {
+    yield 1;
+    yield 2;
+}
+
+function* create_color_iterator() {
+    yield "red";
+    yield "green";
+}
+
+function* create_combined_iterator() {
+    yield* create_number_iterator();
+    yield* create_color_iterator();
+    yield true;
+}
+let combined_iterator = create_combined_iterator();
+console.log("[委托生成器]---create_combined_iterator.next() ", combined_iterator.next());
+// [委托生成器]---create_combined_iterator.next()  { value: 1, done: false }
+console.log("[委托生成器]---create_combined_iterator.next() ", combined_iterator.next());
+// [委托生成器]---create_combined_iterator.next()  { value: 2, done: false }
+console.log("[委托生成器]---create_combined_iterator.next() ", combined_iterator.next());
+// [委托生成器]---create_combined_iterator.next()  { value: 'red', done: false }
+console.log("[委托生成器]---create_combined_iterator.next() ", combined_iterator.next());
+// [委托生成器]---create_combined_iterator.next()  { value: 'green', done: false }
+console.log("[委托生成器]---create_combined_iterator.next() ", combined_iterator.next());
+// [委托生成器]---create_combined_iterator.next()  { value: true, done: false }
+//这里的生成器create_combined_iterator()先后委托了另外2个生成器create_number_iterator()和create_color_iterator()
+//仅根据迭代器的返回值来看，它就像是一个完整的迭代器，可以生成所有的值
+//每一次调用next()方法就会委托相应的迭代器生成相应的值
+//直到最后由create_number_iterator()和create_color_iterator()创建的迭代器无法返回更多的值，此时执行最后一条yield语句，并返回true
+//有了生成器委托这个新功能，可以进一步利用生成器的返回值来处理复杂任务：
+function* create_another_number_iterator() {
+    yield 1;
+    yield 2;
+    return 3;
+}
+
+function* create_repeating_iterator(count) {
+    for (let i = 0; i < count; i++) {
+        yield "repeat";
+    }
+}
+
+function* create_another_combined_iterator() {
+    let result = yield* create_another_number_iterator();
+    yield* create_repeating_iterator(result);
+}
+let another_combined_iterator = create_another_combined_iterator();
+console.log("[委托生成器]---create_another_combined_iterator.next() ", another_combined_iterator.next());
+// [委托生成器]---create_another_combined_iterator.next()  { value: 1, done: false }
+console.log("[委托生成器]---create_another_combined_iterator.next() ", another_combined_iterator.next());
+// [委托生成器]---create_another_combined_iterator.next()  { value: 2, done: false }
+console.log("[委托生成器]---create_another_combined_iterator.next() ", another_combined_iterator.next());
+// [委托生成器]---create_another_combined_iterator.next()  { value: 'repeat', done: false }
+console.log("[委托生成器]---create_another_combined_iterator.next() ", another_combined_iterator.next());
+// [委托生成器]---create_another_combined_iterator.next()  { value: 'repeat', done: false }
+console.log("[委托生成器]---create_another_combined_iterator.next() ", another_combined_iterator.next());
+// [委托生成器]---create_another_combined_iterator.next()  { value: 'repeat', done: false }
+console.log("[委托生成器]---create_another_combined_iterator.next() ", another_combined_iterator.next());
+// [委托生成器]---create_another_combined_iterator.next()  { value: undefined, done: true }
+//在生成器another_create_combined_iterator()中
+//执行过程先被委托给我生成器create_another_number_iterator()，返回值会被赋值给变量result
+//执行到return 3时会返回数值3
+//这个值随后被传入create_another_combined_iterator()作为它的参数，因而生成字符串"repeat"的yield语句会被执行3次
+//注意：无论通过何种方式调用迭代器的next()方法，数值3永远不会被返回，它只存在于生成器create_another_combined_iterator()的内部
+//但如果想输出这个值，则可以额外添加一条yield语句：
+function* create_designed_combined_iterator() {
+    let result = yield* create_another_number_iterator();
+    yield result;
+    yield* create_repeating_iterator(result);
+}
+let designed_combined_iterator = create_designed_combined_iterator();
+console.log("[委托生成器]---create_designed_combined_iterator.next() ", designed_combined_iterator.next());
+// [委托生成器]---create_designed_combined_iterator.next()  { value: 1, done: false }
+console.log("[委托生成器]---create_designed_combined_iterator.next() ", designed_combined_iterator.next());
+// [委托生成器]---create_designed_combined_iterator.next()  { value: 2, done: false }
+console.log("[委托生成器]---create_designed_combined_iterator.next() ", designed_combined_iterator.next());
+// [委托生成器]---create_designed_combined_iterator.next()  { value: 3, done: false }
+console.log("[委托生成器]---create_designed_combined_iterator.next() ", designed_combined_iterator.next());
+// [委托生成器]---create_designed_combined_iterator.next()  { value: 'repeat', done: false }
+console.log("[委托生成器]---create_designed_combined_iterator.next() ", designed_combined_iterator.next());
+// [委托生成器]---create_designed_combined_iterator.next()  { value: 'repeat', done: false }
+console.log("[委托生成器]---create_designed_combined_iterator.next() ", designed_combined_iterator.next());
+// [委托生成器]---create_designed_combined_iterator.next()  { value: 'repeat', done: false }
+console.log("[委托生成器]---create_designed_combined_iterator.next() ", designed_combined_iterator.next());
+// [委托生成器]---create_designed_combined_iterator.next()  { value: undefined, done: true }
+//Note：yield* 也可直接应用于字符串，例如yield* "hello"，此时将使用字符串的默认迭代器

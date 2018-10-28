@@ -1,6 +1,7 @@
 //---什么是生成器
 
 //生成器：是一种返回迭代器的函数，通过function关键字后的星号(*)来表示，函数中会用到新的关键字yield
+//通过关键字yield来标识每次调用迭代器的next()方法时的返回值
 //星号(*)可以紧挨着function关键字，也可以在中间添加一个空格
 function* create_iterator() {
     yield 1;
