@@ -8,8 +8,8 @@ function Person_Type(name) {
 Person_Type.prototype.say_name = function () {
     console.log("[es5中的近类结构]---say_name name = ", this.name);
 };
-let person = new Person_Type("damon"); //damon
-person.say_name();
+let person = new Person_Type("damon");
+person.say_name(); //damon
 console.log("[es5中的近类结构]---", (person instanceof Person_Type)); //true
 console.log("[es5中的近类结构]---", (person instanceof Object)); //true
 //Person_Type是一个构造函数，其执行后创建一个名为name的属性
