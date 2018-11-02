@@ -62,6 +62,7 @@ let Person_Type_2 = (function () {
     });
     return Person_Type_2;
 }());
+console.log(Person_Type_2.name); //Person_Type_2
 //这段代码中有2出Person_Type_2声明：一处是外部作用域中的let声明，一处是立即执行函数表达式中的const声明
 //这个也从侧面说明了为什么可以在外部修改类名，而内部却不可修改
 //在构造函数中，先检查new.target是否通过new调用，如果不是则抛出错误；
@@ -76,6 +77,8 @@ class Foo {
     }
 }
 //但在类声明结束后就可以修改
+console.log("[类名]---Foo.name = ", Foo.name);
+console.log("[类名]---typeof Foo.name = ", (typeof Foo.name)); //string
 Foo = "baz";
 //在这段代码中，类的外部有一个Foo声明，而类的构造函数里的Foo则是一个独立存在的绑定
 //内部的Foo就像是通过const声明的，修改它的值会导致程序抛出错误
