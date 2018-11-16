@@ -26,7 +26,7 @@ Object.setPrototypeOf(friend, dog); //原先与person对象的关联被解除
 console.log("[friend]---greeting = " + friend.get_greeting()); //woof
 console.log(Object.getPrototypeOf(friend) === dog); //true
 //对象原型的真实值被存储在内部专用属性[[Prototype]]中，调用Object.getPropertyOf()方法返回存储在其中的值
-//调用Object.setPrototypeOf()方法改变其中的值；然而这不是操作[[Prototype]]的方法
+//调用Object.setPrototypeOf()方法改变其中的值；然而这不是操作[[Prototype]]的唯一方法
 
 //2---简化原型访问的Super引用
 //es6引入了Super引用的特性，使用它可以更便捷地访问对象原型
